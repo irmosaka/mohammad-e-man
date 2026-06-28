@@ -64,9 +64,9 @@
     <!-- صفحه نام -->
     <div id="nameScreen" class="modal" style="display:flex;">
         <div class="modal-content">
-            <h3>سلام عشقم! اسمت چیه؟ 💕</h3>
+            <h3>کاربر گرامی، سلام! نام خود را وراد کنید : </h3>
             <input id="nameInput" type="text" placeholder="غزال" style="font-size:1.1em;">
-            <button onclick="checkName()">ورود به اپ محمد من 💖</button>
+            <button onclick="checkName()">ورود </button>
         </div>
     </div>
 
@@ -108,10 +108,10 @@
 
     <script>
         const services = [
-            {icon:"❄️", title:"سرویس کولر آبی", desc:"کولر رو خنک‌تر از قلبم می‌کنم!"},
-            {icon:"🧹", title:"نظافت منزل", desc:"خونه رو برق می‌ندازم، بدون ذره گرد و خاک"},
-            {icon:"🚗", title:"سرویس خودرو", desc:"ماشینتو تمیز و آماده می‌کنم"},
-            {icon:"🏊", title:"خالی کردن حوض", desc:"حوض رو خالی می‌کنم که عکس عاشقانه بگیریم 😍"},
+            {icon:"❄️", title:"سرویس کولر آبی", desc:"کولر رو خنک‌تر از قطب جنوب می‌کنم!"},
+            {icon:"🧹", title:"نظافت منزل", desc:"خونه رو برق می‌ندازم، بدون ذره ای گرد و خاک"},
+            {icon:"🚗", title:"سرویس خودرو", desc:"ماشینتو تمیز و سرویس می‌کنم"},
+            {icon:"🏡", title:"باغبانی", desc:"آبیاری درختان، نصب سایبان و خدمات باربیکیو"},
             {icon:"🍦", title:"پیاده‌روی عاشقانه", desc:"دست تو دست، با بستنی و عشق"},
             {icon:"🥰", title:"شارژ عاطفی و بوسه", desc:"بوسه تحویل در محل + شارژ عاطفی فوری 💕"}
         ];
@@ -120,7 +120,7 @@
 
         function checkName() {
             const name = document.getElementById('nameInput').value.trim().toLowerCase();
-            if (name === 'ghazal' || name === 'غزال' || name === '') {  // خالی هم قبول کنه برای راحتی
+            if (name === 'ghazal' || name === 'غزال' || name === 'Ghazal') {  // خالی هم قبول کنه برای راحتی
                 document.getElementById('nameScreen').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
                 localStorage.setItem('nameEntered', 'true');
