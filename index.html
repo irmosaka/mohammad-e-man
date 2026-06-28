@@ -6,62 +6,121 @@
     <title>محمدِ من</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
-        body { font-family: 'Vazirmatn', system-ui, sans-serif; margin:0; padding:0; background: linear-gradient(135deg, #ffe0e0, #ff9a9e); color:#333; text-align:center; min-height:100vh; }
-        header { background:#ff4757; color:white; padding:25px 15px; }
+        body { 
+            font-family: 'Vazirmatn', system-ui, sans-serif; 
+            margin:0; padding:0; 
+            background: linear-gradient(135deg, #ffe0e0, #ff9a9e); 
+            color:#333; text-align:center; min-height:100vh; 
+        }
+        header { 
+            background:#c0392b; color:white; padding:25px 15px; 
+        }
         h1 { margin:0; font-size:2.8em; }
-        .hero { padding:50px 20px; background:rgba(0,0,0,0.3); color:white; }
-        .service-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px; padding:30px 20px; max-width:900px; margin:0 auto; }
-        .service-card { background:white; border-radius:20px; padding:25px; box-shadow:0 10px 25px rgba(0,0,0,0.1); transition:0.3s; cursor:pointer; }
-        .service-card:hover { transform:scale(1.08); box-shadow:0 15px 35px rgba(255,71,87,0.3); }
-        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); align-items:center; justify-content:center; z-index:1000; }
-        .modal-content { background:white; padding:35px; border-radius:25px; width:90%; max-width:420px; }
-        button { background:#ff4757; color:white; border:none; padding:14px 32px; border-radius:50px; font-size:1.1em; margin:10px; cursor:pointer; }
-        button:hover { background:#ff3838; }
-        .heart { color:#ff4757; animation:beat 1.2s infinite; }
+        .heart { color:#fff; animation:beat 1.2s infinite; }
         @keyframes beat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.4);} }
+        
+        .service-grid { 
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); 
+            gap:20px; padding:30px 20px; max-width:900px; margin:0 auto; 
+        }
+        .service-card { 
+            background:white; border-radius:20px; padding:25px; 
+            box-shadow:0 10px 25px rgba(0,0,0,0.1); transition:0.3s; cursor:pointer; 
+        }
+        .service-card:hover { transform:scale(1.08); box-shadow:0 15px 35px rgba(192,57,43,0.3); }
+        
+        .modal { 
+            display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
+            background:rgba(0,0,0,0.8); align-items:center; justify-content:center; z-index:1000; 
+        }
+        .modal-content { 
+            background:white; padding:35px; border-radius:25px; width:90%; max-width:450px; 
+        }
+        button { 
+            background:#c0392b; color:white; border:none; padding:14px 32px; 
+            border-radius:50px; font-size:1.1em; margin:10px; cursor:pointer; 
+        }
+        button:hover { background:#e74c3c; }
+        .history { margin:30px auto; max-width:800px; padding:0 20px; }
+        .history-item { background:#fff; margin:10px 0; padding:15px; border-radius:15px; text-align:right; box-shadow:0 5px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
     <header>
-        <h1>🧔🏻‍♂️ محمد من</h1>
-        <p style="margin:10px 0 0;">خدمات فوری در محل به همراه ❤️</p>
+        <h1>🧔🏻‍♂️ محمد من <span class="heart">❤️</span></h1>
+        <p>خدمات فوری و عاشقانه برای غزال جون</p>
     </header>
 
-    <div class="hero">
-        <h2>غزال عزیز، بگو چی لازم داری؟</h2>
+    <div id="nameScreen" class="modal" style="display:flex;">
+        <div class="modal-content">
+            <h3>سلام! اسمت چیه؟</h3>
+            <input id="nameInput" type="text" placeholder="غزال" style="width:100%; padding:12px; margin:15px 0; border-radius:12px; font-size:1.1em;">
+            <button onclick="checkName()">ورود به اپ</button>
+        </div>
     </div>
 
-    <div class="service-grid" id="services"></div>
+    <div id="mainApp" style="display:none;">
+        <div class="hero" style="padding:40px 20px; background:rgba(192,57,43,0.9); color:white;">
+            <h2>غزال عزیزم، بگو چی لازم داری؟ ❤️</h2>
+        </div>
 
-    <div id="modal" class="modal">
+        <div class="service-grid" id="services"></div>
+
+        <div class="history">
+            <h2>درخواست‌های قبلی</h2>
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+    <!-- Modal درخواست -->
+    <div id="requestModal" class="modal">
         <div class="modal-content">
             <h3 id="mTitle"></h3>
             <p id="mDesc"></p>
-            <textarea id="note" rows="3" placeholder="توضیح اضافی (اختیاری)..." style="width:100%;margin:15px 0;padding:12px;border-radius:12px;"></textarea>
-            <div>
-                <button onclick="sendRequest()">ارسال درخواست 🚀</button>
-                <button onclick="closeModal()" style="background:#aaa;">بستن</button>
+            
+            <input id="address" type="text" value="دهات شاهین شهر یا شهر اصفهان" style="width:100%; padding:12px; margin:15px 0; border-radius:12px;">
+            
+            <textarea id="note" rows="3" placeholder="توضیح اضافی..." style="width:100%;margin:10px 0;padding:12px;border-radius:12px;"></textarea>
+            
+            <div style="margin-top:20px;">
+                <button onclick="confirmRequest()">بله، موافقم! آقای محمد صادقی کاجی اعزام شود 🚀</button>
+                <button onclick="funnyNo()" style="background:#777;">خیر</button>
             </div>
         </div>
     </div>
 
-    <footer style="padding:30px 15px;background:#333;color:white;margin-top:40px;">
-        <p>ساخته شده با ❤️ فقط برای غزال</p>
+    <footer style="padding:25px; background:#333; color:white; margin-top:40px;">
+        <p>ساخته شده با عشق فقط برای غزال جون ❤️</p>
     </footer>
 
     <script>
         const services = [
-            {icon:"❄️", title:"سرویس کولر آبی", desc:"کولر رو خنک‌تر از قطب می‌کنم!"},
-            {icon:"🧹", title:"نظافت منزل", desc:"خونه رو برق می‌ندازم، بدون ذره ای گرد و خاک"},
-            {icon:"🚗", title:"سرویس خودرو", desc:"ماشینتو تمیز و سرویس می‌کنم"},
-            {icon:"🏡", title:"باغبانی", desc:"آآبیاری درختان و نصب سایبان"},
-            {icon:"🍦", title:"پیاده‌روی عاشقانه", desc:"دست تو دست، با بستنی وانیلی و عشق"},
+            {icon:"❄️", title:"سرویس کولر آبی", desc:"کولر رو خنک‌تر از قلبم می‌کنم!"},
+            {icon:"🧹", title:"نظافت منزل", desc:"خونه رو برق می‌ندازم، بدون ذره گرد و خاک"},
+            {icon:"🚗", title:"سرویس خودرو", desc:"ماشینتو تمیز و آماده می‌کنم"},
+            {icon:"🏊", title:"خالی کردن حوض", desc:"حوض رو خالی می‌کنم که عکس عاشقانه بگیریم 😍"},
+            {icon:"🍦", title:"پیاده‌روی عاشقانه", desc:"دست تو دست، با بستنی و عشق"},
+            {icon:"💋", title:"شارژ عاطفی و بوسه", desc:"بوسه تحویل در محل + شارژ عاطفی فوری"}
         ];
 
-        function render() {
+        let currentService = {};
+
+        function checkName() {
+            const name = document.getElementById('nameInput').value.trim().toLowerCase();
+            if (name === 'ghazal' || name === 'غزال') {
+                document.getElementById('nameScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                renderServices();
+                loadHistory();
+            } else {
+                alert('😅 استفاده از این اپ فقط برای خانم غزال امکان‌پذیر هست!\n\nمحمد من فقط مال توئه عزیزم ❤️');
+            }
+        }
+
+        function renderServices() {
             const container = document.getElementById('services');
             container.innerHTML = services.map(s => `
-                <div class="service-card" onclick="openService('${s.title}', '${s.desc}')">
+                <div class="service-card" onclick="openRequest('${s.title}', '${s.desc}')">
                     <div style="font-size:3.5em;margin-bottom:15px;">${s.icon}</div>
                     <h3>${s.title}</h3>
                     <p>${s.desc}</p>
@@ -69,26 +128,70 @@
             `).join('');
         }
 
-        let current = {};
-        function openService(title, desc) {
-            current = {title, desc};
+        function openRequest(title, desc) {
+            currentService = {title, desc};
             document.getElementById('mTitle').textContent = title;
             document.getElementById('mDesc').textContent = desc;
-            document.getElementById('modal').style.display = 'flex';
+            document.getElementById('requestModal').style.display = 'flex';
         }
 
-        function closeModal() {
-            document.getElementById('modal').style.display = 'none';
+        function confirmRequest() {
+            const address = document.getElementById('address').value || 'دهات شاهین شهر';
+            const note = document.getElementById('note').value || 'بدون توضیح';
+            
+            const request = {
+                title: currentService.title,
+                address: address,
+                note: note,
+                time: new Date().toLocaleString('fa-IR')
+            };
+            
+            let history = JSON.parse(localStorage.getItem('requests')) || [];
+            history.unshift(request);
+            localStorage.setItem('requests', JSON.stringify(history));
+            
+            alert(`✅ بله! آقای محمد صادقی کاجی فوراً به آدرس ${address} اعزام شدند ❤️`);
+            closeModals();
+            loadHistory();
         }
 
-        function sendRequest() {
-            const note = document.getElementById('note').value || '❤️';
-            alert(`✅ درخواست "${current.title}" ارسال شد!\n\nحج ممد در حال اومدنه عمرم... ${note}`);
-            closeModal();
-            // می‌تونی بعداً تاریخچه اضافه کنی
+        function funnyNo() {
+            const noMessages = [
+                "😢 محمد دلش شکست... دوباره امتحان کن!",
+                "نه؟! خب پس بوسه نمی‌دم 😘",
+                "آخه چرا؟ محمد من که همیشه در خدمته...",
+                "این یکی رو ول کن، بله رو بزن عزیزم ❤️"
+            ];
+            alert(noMessages[Math.floor(Math.random() * noMessages.length)]);
         }
 
-        window.onload = render;
+        function closeModals() {
+            document.getElementById('requestModal').style.display = 'none';
+            document.getElementById('note').value = '';
+        }
+
+        function loadHistory() {
+            const list = document.getElementById('historyList');
+            let history = JSON.parse(localStorage.getItem('requests')) || [];
+            list.innerHTML = history.map(r => `
+                <div class="history-item">
+                    <strong>${r.title}</strong><br>
+                    📍 ${r.address}<br>
+                    <small>${r.time} — ${r.note}</small>
+                </div>
+            `).join('');
+        }
+
+        // شروع
+        window.onload = () => {
+            // اگر قبلاً اسم وارد کرده، مستقیم بره داخل
+            if (localStorage.getItem('nameEntered')) {
+                document.getElementById('nameScreen').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                renderServices();
+                loadHistory();
+            }
+        };
     </script>
 </body>
 </html>
