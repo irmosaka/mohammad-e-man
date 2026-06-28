@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>محمد من - خدمات عاشقانه!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
+        body { font-family: 'Vazirmatn', system-ui, sans-serif; margin:0; padding:0; background: linear-gradient(135deg, #ffe0e0, #ff9a9e); color:#333; text-align:center; min-height:100vh; }
+        header { background:#ff4757; color:white; padding:25px 15px; }
+        h1 { margin:0; font-size:2.8em; }
+        .hero { padding:50px 20px; background:rgba(0,0,0,0.3); color:white; }
+        .service-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px; padding:30px 20px; max-width:900px; margin:0 auto; }
+        .service-card { background:white; border-radius:20px; padding:25px; box-shadow:0 10px 25px rgba(0,0,0,0.1); transition:0.3s; cursor:pointer; }
+        .service-card:hover { transform:scale(1.08); box-shadow:0 15px 35px rgba(255,71,87,0.3); }
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); align-items:center; justify-content:center; z-index:1000; }
+        .modal-content { background:white; padding:35px; border-radius:25px; width:90%; max-width:420px; }
+        button { background:#ff4757; color:white; border:none; padding:14px 32px; border-radius:50px; font-size:1.1em; margin:10px; cursor:pointer; }
+        button:hover { background:#ff3838; }
+        .heart { color:#ff4757; animation:beat 1.2s infinite; }
+        @keyframes beat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.4);} }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🧔 محمد من</h1>
+        <p style="margin:10px 0 0;">خدمات فوری برای عشق زندگی‌ام ❤️</p>
+    </header>
+
+    <div class="hero">
+        <h2>عزیزم، بگو چی لازم داری؟</h2>
+    </div>
+
+    <div class="service-grid" id="services"></div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="mTitle"></h3>
+            <p id="mDesc"></p>
+            <textarea id="note" rows="3" placeholder="توضیح اضافی (اختیاری)..." style="width:100%;margin:15px 0;padding:12px;border-radius:12px;"></textarea>
+            <div>
+                <button onclick="sendRequest()">ارسال درخواست 🚀</button>
+                <button onclick="closeModal()" style="background:#aaa;">بستن</button>
+            </div>
+        </div>
+    </div>
+
+    <footer style="padding:30px 15px;background:#333;color:white;margin-top:40px;">
+        <p>ساخته شده با ❤️ فقط برای تو</p>
+    </footer>
+
+    <script>
+        const services = [
+            {icon:"❄️", title:"سرویس کولر آی", desc:"کولر رو خنک‌تر از قلبم می‌کنم!"},
+            {icon:"🧹", title:"نظافت منزل", desc:"خونه رو برق می‌ندازم، بدون ذره گرد و خاک"},
+            {icon:"🚗", title:"سرویس خودرو", desc:"ماشینتو تمیز و آماده می‌کنم"},
+            {icon:"🏊", title:"خالی کردن حوض", desc:"حوض رو خالی می‌کنم که عکس عاشقانه بگیریم 😍"},
+            {icon:"💄", title:"خرید لوازم آرایش", desc:"هر چی دلت بخواد می‌خرم"},
+            {icon:"🌙", title:"پیاده‌روی عاشقانه", desc:"دست تو دست، با بستنی و عشق"},
+            {icon:"💆‍♀️", title:"ماساژ خستگی", desc:"شونه‌هاتو آروم می‌کنم تا بگی بهترینم"}
+        ];
+
+        function render() {
+            const container = document.getElementById('services');
+            container.innerHTML = services.map(s => `
+                <div class="service-card" onclick="openService('${s.title}', '${s.desc}')">
+                    <div style="font-size:3.5em;margin-bottom:15px;">${s.icon}</div>
+                    <h3>${s.title}</h3>
+                    <p>${s.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        let current = {};
+        function openService(title, desc) {
+            current = {title, desc};
+            document.getElementById('mTitle').textContent = title;
+            document.getElementById('mDesc').textContent = desc;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        function sendRequest() {
+            const note = document.getElementById('note').value || '❤️';
+            alert(`✅ درخواست "${current.title}" ارسال شد!\n\nمحمد من در حال اومدنه عشقم... ${note}`);
+            closeModal();
+            // می‌تونی بعداً تاریخچه اضافه کنی
+        }
+
+        window.onload = render;
+    </script>
+</body>
+</html>
