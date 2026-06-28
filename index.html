@@ -14,7 +14,7 @@
             color:#333; text-align:center; min-height:100vh; 
         }
         header { 
-            background:#ff69b4; color:white; padding:25px 15px; 
+            background:#ff69b4; color:white; padding:25px 15px;
             box-shadow: 0 4px 15px rgba(255,105,180,0.4);
         }
         h1 { margin:0; font-size:2.8em; }
@@ -26,33 +26,34 @@
             gap:20px; padding:30px 20px; max-width:900px; margin:0 auto; 
         }
         .service-card { 
-            background:white; border-radius:22px; padding:25px; 
+            background:white; border-radius:22px; padding:25px;
             box-shadow:0 10px 25px rgba(255,105,180,0.2); transition:0.3s; cursor:pointer; 
         }
         .service-card:hover { transform:scale(1.08); box-shadow:0 15px 35px rgba(255,105,180,0.4); }
         
-        .modal { 
-            display:none; position:fixed; top:0; left:0; width:100%; height:100%; 
-            background:rgba(0,0,0,0.75); align-items:center; justify-content:center; z-index:1000; 
+        .modal {
+            display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.75); align-items:center; justify-content:center; z-index:1000;
         }
-        .modal-content { 
-            background:white; padding:35px; border-radius:25px; width:90%; max-width:460px; 
-            box-shadow:0 10px 30px rgba(255,105,180,0.5);
+        .modal-content {
+            background:white; padding:35px; border-radius:25px; width:90%; max-width:460px;
+            box-shadow:0 10px 30px rgba(255,105,180,0.5); font-family: 'Vazirmatn', sans-serif;
         }
         button { 
-            background:#ff69b4; color:white; border:none; padding:14px 32px; 
-            border-radius:50px; font-size:1.1em; margin:10px; cursor:pointer; 
+            background:#ff69b4; color:white; border:none; padding:14px 32px;
+            border-radius:50px; font-size:1.1em; margin:10px; cursor:pointer; font-family: 'Vazirmatn', sans-serif;
         }
         button:hover { background:#ff1493; transform:scale(1.05); }
         
-        input, textarea, select { 
-            font-family: 'Vazirmatn', system-ui, sans-serif; 
-            width:100%; padding:12px; margin:10px 0; border-radius:12px; border:2px solid #ffb6c1; 
+        input, textarea { 
+            font-family: 'Vazirmatn', system-ui, sans-serif;
+            width:100%; padding:12px; margin:10px 0; border-radius:12px; border:2px solid #ffb6c1;
         }
         .history-item { 
-            background:#fff; margin:12px 0; padding:16px; border-radius:18px; 
-            text-align:right; box-shadow:0 5px 15px rgba(255,105,180,0.15); 
+            background:#fff; margin:12px 0; padding:16px; border-radius:18px;
+            text-align:right; box-shadow:0 5px 15px rgba(255,105,180,0.15);
         }
+        .message-modal .modal-content { background:#fff0f5; }
     </style>
 </head>
 <body>
@@ -64,9 +65,9 @@
     <!-- صفحه نام -->
     <div id="nameScreen" class="modal" style="display:flex;">
         <div class="modal-content">
-            <h3>کاربر گرامی، سلام! نام خود را وراد کنید : </h3>
-            <input id="nameInput" type="text" placeholder="نام خود را وارد کنید" style="font-size:1.1em;">
-            <button onclick="checkName()">ورود </button>
+            <h3>کاربر گرامی، سلام! نام خود را وارد کنید :</h3>
+            <input id="nameInput" type="text" placeholder="غزال" style="font-size:1.1em;">
+            <button onclick="checkName()">ورود 💖</button>
         </div>
     </div>
 
@@ -74,23 +75,21 @@
         <div style="padding:40px 20px; background:rgba(255,105,180,0.9); color:white;">
             <h2>غزال عزیزم، بگو چی لازم داری؟ 💕🥰</h2>
         </div>
-
         <div class="service-grid" id="services"></div>
-
         <div class="history" style="margin:40px auto; max-width:800px; padding:0 20px;">
             <h2>📜 درخواست‌های قبلی</h2>
             <div id="historyList"></div>
         </div>
     </div>
 
-    <!-- Modal درخواست -->
+    <!-- Modal درخواست خدمت -->
     <div id="requestModal" class="modal">
         <div class="modal-content">
             <h3 id="mTitle"></h3>
             <p id="mDesc"></p>
             
             <p><strong>آدرس:</strong></p>
-            <label><input type="radio" name="address" value="شهر اصفهان" checked> شهر اصفهان</label><br>
+            <label><input type="radio" name="address" value="شهر اصفهان" checked> شهر اصفهان</label><br><br>
             <label><input type="radio" name="address" value="دهات شاهین شهر"> دهات شاهین شهر</label>
             
             <textarea id="note" rows="3" placeholder="توضیح اضافی (اختیاری) 💖"></textarea>
@@ -99,6 +98,14 @@
                 <button onclick="confirmRequest()">بله، موافقم! آقای محمد صادقی کاجی اعزام شوند 🚀💕</button>
                 <button onclick="funnyNo()" style="background:#aaa;">خیر</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal پیام عمومی -->
+    <div id="messageModal" class="modal message-modal">
+        <div class="modal-content">
+            <p id="customMessage" style="font-size:1.2em; margin:20px 0;"></p>
+            <button onclick="closeMessageModal()">باشه 💖</button>
         </div>
     </div>
 
@@ -118,16 +125,29 @@
 
         let currentService = {};
 
+        function showMessage(text) {
+            document.getElementById('customMessage').innerHTML = text;
+            document.getElementById('messageModal').style.display = 'flex';
+        }
+
+        function closeMessageModal() {
+            document.getElementById('messageModal').style.display = 'none';
+        }
+
         function checkName() {
-            const name = document.getElementById('nameInput').value.trim().toLowerCase();
-            if (name === 'ghazal' || name === 'غزال' || name === 'Ghazal') {  // خالی هم قبول کنه برای راحتی
+            const name = document.getElementById('nameInput').value.trim();
+            if (name === '') {
+                showMessage('❌ لطفاً اسم خود را وارد کنید!<br>نمی‌تواند خالی باشد 💖');
+                return;
+            }
+            if (name.toLowerCase() === 'ghazal' || name.toLowerCase() === 'غزال') {
                 document.getElementById('nameScreen').style.display = 'none';
                 document.getElementById('mainApp').style.display = 'block';
                 localStorage.setItem('nameEntered', 'true');
                 renderServices();
                 loadHistory();
             } else {
-                alert('😘 فقط برای خانم غزال عزیزم! بقیه اجازه ورود ندارن 💖');
+                showMessage('😘 فقط برای خانم غزال عزیزم!<br>بقیه اجازه ورود ندارن 💖');
             }
         }
 
@@ -164,7 +184,7 @@
             history.unshift(request);
             localStorage.setItem('requests', JSON.stringify(history));
             
-            alert(`💖 بله! آقای محمد صادقی کاجی فوراً به سمت ${selectedAddress} حرکت کردند...`);
+            showMessage(`💖 بله! آقای محمد صادقی کاجی فوراً به سمت ${selectedAddress} حرکت کردند...`);
             closeModals();
             loadHistory();
         }
@@ -177,9 +197,11 @@
                 "این یکی رو ول کن، بله رو بزن که قلبم شاد بشه 💕",
                 "نه گفتن ممنوعه! فقط بله 😘",
                 "محمد الان داره گریه می‌کنه... بله بزن جونم 🥺",
-                "خیر؟! پس منم میرم خونه مامانم! 😂"
+                "خیر؟! پس منم میرم خونه مامانم! 😂",
+                "نه گفتی؟ قلبم شکست 💔 دوباره بله بزن!",
+                "محمد منتظره... بله رو بزن عشقم 💖"
             ];
-            alert(messages[Math.floor(Math.random() * messages.length)]);
+            showMessage(messages[Math.floor(Math.random() * messages.length)]);
         }
 
         function closeModals() {
