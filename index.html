@@ -33,27 +33,26 @@
         
         .modal {
             display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-            background:rgba(0,0,0,0.75); align-items:center; justify-content:center; z-index:1000;
+            background:rgba(0,0,0,0.8); align-items:center; justify-content:center; z-index:1000;
         }
         .modal-content {
             background:white; padding:35px; border-radius:25px; width:90%; max-width:460px;
-            box-shadow:0 10px 30px rgba(255,105,180,0.5); font-family: 'Vazirmatn', sans-serif;
+            box-shadow:0 10px 30px rgba(255,105,180,0.5);
         }
         button { 
             background:#ff69b4; color:white; border:none; padding:14px 32px;
-            border-radius:50px; font-size:1.1em; margin:10px; cursor:pointer; font-family: 'Vazirmatn', sans-serif;
+            border-radius:50px; font-size:1.1em; margin:10px; cursor:pointer; 
         }
         button:hover { background:#ff1493; transform:scale(1.05); }
         
         input, textarea { 
             font-family: 'Vazirmatn', system-ui, sans-serif;
-            width:100%; padding:12px; margin:10px 0; border-radius:12px; border:2px solid #ffb6c1;
+            width:100%; padding:12px; margin:12px 0; border-radius:12px; border:2px solid #ffb6c1;
         }
         .history-item { 
             background:#fff; margin:12px 0; padding:16px; border-radius:18px;
             text-align:right; box-shadow:0 5px 15px rgba(255,105,180,0.15);
         }
-        .message-modal .modal-content { background:#fff0f5; }
     </style>
 </head>
 <body>
@@ -62,8 +61,8 @@
         <p>خدمات عاشقانه و صورتی برای غزال جونم 💖</p>
     </header>
 
-    <!-- صفحه نام -->
-    <div id="nameScreen" class="modal" style="display:flex;">
+    <!-- صفحه نام (اولویت بالا) -->
+    <div id="nameScreen" class="modal">
         <div class="modal-content">
             <h3>کاربر گرامی، سلام! نام خود را وارد کنید :</h3>
             <input id="nameInput" type="text" placeholder="غزال" style="font-size:1.1em;">
@@ -101,10 +100,10 @@
         </div>
     </div>
 
-    <!-- Modal پیام عمومی -->
-    <div id="messageModal" class="modal message-modal">
+    <!-- Modal پیام -->
+    <div id="messageModal" class="modal">
         <div class="modal-content">
-            <p id="customMessage" style="font-size:1.2em; margin:20px 0;"></p>
+            <p id="customMessage" style="font-size:1.25em; line-height:1.6; margin:20px 0;"></p>
             <button onclick="closeMessageModal()">باشه 💖</button>
         </div>
     </div>
@@ -173,12 +172,7 @@
             const selectedAddress = document.querySelector('input[name="address"]:checked').value;
             const note = document.getElementById('note').value || '❤️';
             
-            const request = {
-                title: currentService.title,
-                address: selectedAddress,
-                note: note,
-                time: new Date().toLocaleString('fa-IR')
-            };
+            const request = { title: currentService.title, address: selectedAddress, note: note, time: new Date().toLocaleString('fa-IR') };
             
             let history = JSON.parse(localStorage.getItem('requests')) || [];
             history.unshift(request);
@@ -190,17 +184,7 @@
         }
 
         function funnyNo() {
-            const messages = [
-                "😢 دل محمد شکست... دوباره امتحان کن عزیزم!",
-                "نه؟! خب پس امشب بوسه نمی‌دم 💋",
-                "آخه چرا؟ محمد من همیشه در خدمته...",
-                "این یکی رو ول کن، بله رو بزن که قلبم شاد بشه 💕",
-                "نه گفتن ممنوعه! فقط بله 😘",
-                "محمد الان داره گریه می‌کنه... بله بزن جونم 🥺",
-                "خیر؟! پس منم میرم خونه مامانم! 😂",
-                "نه گفتی؟ قلبم شکست 💔 دوباره بله بزن!",
-                "محمد منتظره... بله رو بزن عشقم 💖"
-            ];
+            const messages = ["😢 دل محمد شکست... دوباره امتحان کن عزیزم!", "نه؟! خب پس امشب بوسه نمی‌دم 💋", "آخه چرا؟ محمد من همیشه در خدمته...", "این یکی رو ول کن، بله رو بزن که قلبم شاد بشه 💕", "نه گفتن ممنوعه! فقط بله 😘", "محمد الان داره گریه می‌کنه... بله بزن جونم 🥺", "خیر؟! پس منم میرم خونه مامانم! 😂"];
             showMessage(messages[Math.floor(Math.random() * messages.length)]);
         }
 
@@ -221,13 +205,9 @@
             `).join('');
         }
 
+        // شروع مستقیم صفحه نام
         window.onload = () => {
-            if (localStorage.getItem('nameEntered')) {
-                document.getElementById('nameScreen').style.display = 'none';
-                document.getElementById('mainApp').style.display = 'block';
-                renderServices();
-                loadHistory();
-            }
+            document.getElementById('nameScreen').style.display = 'flex';
         };
     </script>
 </body>
